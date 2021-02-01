@@ -2,10 +2,7 @@ package com.co.alianza.alianzaservices.entities;
 
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -21,6 +18,10 @@ public class Customer implements Serializable {
     private static final long serial = 1L;
 
     @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private String id;
+
     @Column(name = "shared_key")
     private String sharedKey;
 

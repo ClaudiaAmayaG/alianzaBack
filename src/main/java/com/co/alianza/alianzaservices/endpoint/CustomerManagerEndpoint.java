@@ -8,12 +8,12 @@ public class CustomerManagerEndpoint {
     public static final String CUSTOMER_MANAGER = "/customer-manager";
 
     /**
-     * Endpoint list customer
-     */
-    public static final String LIST_CUSTOMER = "/list-customer";
-
-    /**
-     * Endpoint search customer
+     * Endpoint search customers
      */
     public static final String SEARCH_CUSTOMER = "/search-customer";
+
+    /**
+     * Endpoint create customer
+     */
+    public static final String CREATE_CUSTOMER = "/create-customer";
 }

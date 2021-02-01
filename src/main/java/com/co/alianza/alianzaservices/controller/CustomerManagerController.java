@@ -1,5 +1,6 @@
 package com.co.alianza.alianzaservices.controller;
 
+import com.co.alianza.alianzaservices.dto.CreateCustomer;
 import com.co.alianza.alianzaservices.dto.CustomerDetailDto;
 import com.co.alianza.alianzaservices.dto.SearchCustomerDTO;
 import com.co.alianza.alianzaservices.endpoint.CustomerManagerEndpoint;
@@ -18,23 +19,22 @@ public class CustomerManagerController {
     private ICustomerManagerService customerManagerService;
 
     /**
-     * Method to get customer list
-     *
-     * @return List<CustomerDTO>
-     */
-    @GetMapping(value = CustomerManagerEndpoint.LIST_CUSTOMER)
-    public List<CustomerDetailDto> getCustomerList() {
-
-        return customerManagerService.getCustomerList();
-    }
-
-    /**
-     * Method to search customer
+     * Method to search customers
      *
      * @return List<CustomerDTO>
      */
     @PostMapping(value = CustomerManagerEndpoint.SEARCH_CUSTOMER)
-    public List<CustomerDetailDto> searchCustomer(@RequestBody SearchCustomerDTO searchCustomer){
-        return customerManagerService.searchCustomer(searchCustomer);
+    public List<CustomerDetailDto> searchCustomers(@RequestBody SearchCustomerDTO searchCustomer){
+        return customerManagerService.searchCustomers(searchCustomer);
+    }
+
+    /**
+     * Method to create customer
+     * @param CreateCustomer
+     * @return Boolean
+     */
+    @PostMapping(value = CustomerManagerEndpoint.CREATE_CUSTOMER)
+    public Boolean createCustomer(@RequestBody CreateCustomer createCustomer){
+        return customerManagerService.createCustomer(createCustomer);
     }
 }
