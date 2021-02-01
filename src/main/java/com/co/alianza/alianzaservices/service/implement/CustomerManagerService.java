@@ -1,5 +1,6 @@
 package com.co.alianza.alianzaservices.service.implement;
 
+import com.co.alianza.alianzaservices.controller.CustomerManagerController;
 import com.co.alianza.alianzaservices.dto.CreateCustomer;
 import com.co.alianza.alianzaservices.dto.CustomerDetailDto;
 import com.co.alianza.alianzaservices.dto.SearchCustomerDTO;
@@ -7,6 +8,8 @@ import com.co.alianza.alianzaservices.entities.Customer;
 import com.co.alianza.alianzaservices.exception.FileException;
 import com.co.alianza.alianzaservices.repository.CustomerRepository;
 import com.co.alianza.alianzaservices.service.ICustomerManagerService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -18,8 +21,14 @@ import java.util.Objects;
 @Service
 public class CustomerManagerService implements ICustomerManagerService {
 
-    @Autowired
+    private static final Logger logger = LogManager.getLogger(CustomerManagerService.class);
+
     private CustomerRepository customerRepository;
+
+    @Autowired
+    public CustomerManagerService(CustomerRepository customerRepository){
+        this.customerRepository = customerRepository;
+    }
 
     @Override
     public List<CustomerDetailDto> searchCustomers(SearchCustomerDTO searchCustomer) {
@@ -45,8 +54,10 @@ public class CustomerManagerService implements ICustomerManagerService {
                 });
             }
 
+            logger.info("Proceso finalizado satisfactorio:".concat(String.valueOf(customerDetailList.size())));
             return customerDetailList;
         }catch (Exception e){
+            logger.error("searchCustomers:".concat(e.getMessage()));
             throw new FileException(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -54,6 +65,7 @@ public class CustomerManagerService implements ICustomerManagerService {
     @Override
     public Boolean createCustomer(CreateCustomer createCustomer){
         if (Objects.isNull(createCustomer)) {
+            logger.error("Objeto createCustomer es nulo");
             throw new FileException("Solicitud con datos no completos", HttpStatus.BAD_REQUEST);
         }
         try {
@@ -68,8 +80,10 @@ public class CustomerManagerService implements ICustomerManagerService {
                     .startDate(createCustomer.getStartDate())
                     .endDate(createCustomer.getEndDate()).build();
             this.customerRepository.save(newCustomer);
+            logger.info("Cliente creado satisfactoriamente");
             return true;
         }catch (Exception e){
+            logger.error("createCustomer:".concat(e.getMessage()));
             throw new FileException(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
