@@ -6,7 +6,7 @@ import com.co.alianza.alianzaservices.dto.SearchCustomerDTO;
 import com.co.alianza.alianzaservices.entities.Customer;
 import com.co.alianza.alianzaservices.exception.FileException;
 import com.co.alianza.alianzaservices.repository.CustomerRepository;
-import com.co.alianza.alianzaservices.service.implement.CustomerManagerService;
+import com.co.alianza.alianzaservices.service.implement.CustomerManagerServiceImpl;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,17 +20,16 @@ import java.util.Date;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class CustomerManagerServiceTest {
+public class CustomerManagerServiceImplTest {
 
     @Mock
     private CustomerRepository customerRepository;
 
     @InjectMocks
-    private CustomerManagerService customerManagerService;
+    private CustomerManagerServiceImpl customerManagerServiceImpl;
 
     @Test
     public void searchCustomersSuccessFull(){
@@ -55,7 +54,7 @@ public class CustomerManagerServiceTest {
                 .endDate(new Date())
                 .build();
         customerList.add(customer2);
-        when(customerRepository.searchForFilters(anyString(),anyString(),anyString(),anyString(),any(Date.class),any(Date.class)))
+        when(customerRepository.searchForFilters(null,null,null,null,null,null))
                 .thenReturn(customerList);
         SearchCustomerDTO searchCustomer = SearchCustomerDTO.builder()
                 .sharedKey(null)
@@ -65,8 +64,8 @@ public class CustomerManagerServiceTest {
                 .startDate(null)
                 .endDate(null)
                 .build();
-        List<CustomerDetailDto> response = customerManagerService.searchCustomers(searchCustomer);
-        Assert.assertTrue(response.size() == 0);
+        List<CustomerDetailDto> response = customerManagerServiceImpl.searchCustomers(searchCustomer);
+        Assert.assertTrue(response.size() != 0);
     }
 
     @Test
@@ -92,8 +91,25 @@ public class CustomerManagerServiceTest {
                 .startDate(null)
                 .endDate(null)
                 .build();
-        List<CustomerDetailDto> response = customerManagerService.searchCustomers(searchCustomer);
+        List<CustomerDetailDto> response = customerManagerServiceImpl.searchCustomers(searchCustomer);
         Assert.assertTrue(response.size()!= 0);
+    }
+
+    @Test
+    public void searchCustomersSuccessFullNoData(){
+        List<Customer> customerList = new ArrayList<>();
+        when(customerRepository.searchForFilters(null,null,null,null,null,null))
+                .thenReturn(customerList);
+        SearchCustomerDTO searchCustomer = SearchCustomerDTO.builder()
+                .sharedKey(null)
+                .name(null)
+                .phone(null)
+                .email(null)
+                .startDate(null)
+                .endDate(null)
+                .build();
+        List<CustomerDetailDto> response = customerManagerServiceImpl.searchCustomers(searchCustomer);
+        Assert.assertTrue(response.size() == 0);
     }
 
     @Test(expected = FileException.class)
@@ -108,7 +124,7 @@ public class CustomerManagerServiceTest {
                 .startDate(null)
                 .endDate(null)
                 .build();
-        customerManagerService.searchCustomers(searchCustomer);
+        customerManagerServiceImpl.searchCustomers(searchCustomer);
     }
 
     @Test
@@ -121,7 +137,7 @@ public class CustomerManagerServiceTest {
                 .startDate(new Date())
                 .endDate(new Date())
                 .build();
-        when(customerRepository.save(newCustomer)).thenReturn(newCustomer);
+        when(customerRepository.save(any())).thenReturn(newCustomer);
         CreateCustomer createCustomer = CreateCustomer.builder()
                 .name("Carlos Torres")
                 .phone("3152698543")
@@ -129,7 +145,24 @@ public class CustomerManagerServiceTest {
                 .startDate(new Date())
                 .endDate(new Date())
                 .build();
-        Boolean response = customerManagerService.createCustomer(createCustomer);
+        Boolean response = customerManagerServiceImpl.createCustomer(createCustomer);
         Assert.assertTrue(response);
+    }
+
+    @Test(expected = FileException.class)
+    public void createCustomerDataException(){
+        customerManagerServiceImpl.createCustomer(null);
+    }
+
+    @Test(expected = FileException.class)
+    public void createCustomerException(){
+        CreateCustomer createCustomer = CreateCustomer.builder()
+                .name("")
+                .phone("3152698543")
+                .email("ctorres@gmail.com")
+                .startDate(new Date())
+                .endDate(new Date())
+                .build();
+        customerManagerServiceImpl.createCustomer(createCustomer);
     }
 }

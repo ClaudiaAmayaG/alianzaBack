@@ -7,6 +7,10 @@ import lombok.ToString;
 
 import java.util.Date;
 
+/**
+ * Class to transfer data from CustomerManager service
+ * @author camaya@asesoftware.com
+ */
 @Getter
 @Setter
 @ToString

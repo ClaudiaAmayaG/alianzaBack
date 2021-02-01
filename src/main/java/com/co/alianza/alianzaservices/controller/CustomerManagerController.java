@@ -8,10 +8,20 @@ import com.co.alianza.alianzaservices.service.ICustomerManagerService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
+/**
+ * Controller for the customer manager.
+ *
+ * @author camaya@asesoftware.com
+ * @version 1.0.0
+ */
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping(CustomerManagerEndpoint.CUSTOMER_MANAGER)
 @RestController

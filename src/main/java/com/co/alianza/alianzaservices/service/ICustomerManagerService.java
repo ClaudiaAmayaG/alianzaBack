@@ -6,6 +6,12 @@ import com.co.alianza.alianzaservices.dto.SearchCustomerDTO;
 
 import java.util.List;
 
+/**
+ * Interface to CustomerManagerService.
+ *
+ * @author camaya@asesoftware.com
+ * @version 1.0.0
+ */
 public interface ICustomerManagerService {
 
     /**

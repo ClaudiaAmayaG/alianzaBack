@@ -1,5 +1,11 @@
 package com.co.alianza.alianzaservices.endpoint;
 
+/**
+ * Endpoint for the customer manager.
+ *
+ * @author camaya@asesoftware.com
+ * @version 1.0.0
+ */
 public class CustomerManagerEndpoint {
 
     /**

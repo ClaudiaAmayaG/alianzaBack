@@ -1,6 +1,5 @@
 package com.co.alianza.alianzaservices.service.implement;
 
-import com.co.alianza.alianzaservices.controller.CustomerManagerController;
 import com.co.alianza.alianzaservices.dto.CreateCustomer;
 import com.co.alianza.alianzaservices.dto.CustomerDetailDto;
 import com.co.alianza.alianzaservices.dto.SearchCustomerDTO;
@@ -8,25 +7,38 @@ import com.co.alianza.alianzaservices.entities.Customer;
 import com.co.alianza.alianzaservices.exception.FileException;
 import com.co.alianza.alianzaservices.repository.CustomerRepository;
 import com.co.alianza.alianzaservices.service.ICustomerManagerService;
+import com.opencsv.CSVWriter;
+import com.opencsv.ICSVWriter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Service Customer manager.
+ *
+ * @author camaya@asesoftware.com
+ * @version 1.0.0
+ */
 @Service
-public class CustomerManagerService implements ICustomerManagerService {
+public class CustomerManagerServiceImpl implements ICustomerManagerService {
 
-    private static final Logger logger = LogManager.getLogger(CustomerManagerService.class);
+    private static final Logger logger = LogManager.getLogger(CustomerManagerServiceImpl.class);
 
     private CustomerRepository customerRepository;
 
     @Autowired
-    public CustomerManagerService(CustomerRepository customerRepository){
+    public CustomerManagerServiceImpl(CustomerRepository customerRepository){
         this.customerRepository = customerRepository;
     }
 
@@ -86,7 +98,5 @@ public class CustomerManagerService implements ICustomerManagerService {
             logger.error("createCustomer:".concat(e.getMessage()));
             throw new FileException(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
     }
-
 }

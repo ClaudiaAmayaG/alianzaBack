@@ -1,11 +1,26 @@
 package com.co.alianza.alianzaservices.entities;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Builder;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Id;
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * Entity for the customer table.
+ *
+ * @author camaya@asesoftware.com
+ * @version 1.0.0
+ */
 @Entity
 @Table(name = "customer")
 @Builder

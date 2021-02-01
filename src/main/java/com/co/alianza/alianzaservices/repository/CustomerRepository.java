@@ -8,6 +8,12 @@ import org.springframework.data.repository.query.Param;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Repository CustomerRepository.
+ *
+ * @author camaya@asesoftware.com
+ * @version 1.0.0
+ */
 public interface CustomerRepository extends CrudRepository<Customer, Long> {
 
     @Query("SELECT c" +
